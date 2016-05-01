@@ -2,11 +2,9 @@ function [Parts,Parts_v,Parts_v_Count]=PartSeperate(Tri)
     PartsWidth=max(Tri(:));Parts=[];
     PtsTraveled=zeros(PartsWidth,1);
     [Adjacent] = FindAdjByTri(Tri);
-    TravelingNow=[];
-    while(~isempty(find(PtsTraveled==0,1,'first')))
-        if isempty(TravelingNow)
-            TravelingNow=find(PtsTraveled==0,1,'first');
-        else
+    TravelingNow=[1];
+    while(~isempty(TravelingNow))
+        if ~isempty(TravelingNow)
             NewTravelStart=[];
             for i=1:length(TravelingNow)
                 NewTravelStart=[NewTravelStart,Adjacent.Adj_index(TravelingNow(i),1:Adjacent.Count(TravelingNow(i)))];
@@ -16,11 +14,13 @@ function [Parts,Parts_v,Parts_v_Count]=PartSeperate(Tri)
         if ~isempty(find(PtsTraveled))
             TravelingNow=DeleteDuplicatedElement(TravelingNow,find(PtsTraveled));
         end
+        PtsTraveled(TravelingNow)=1;
         if isempty(TravelingNow)
             Parts=[Parts;(PtsTraveled==1)'];
             PtsTraveled(PtsTraveled==1)=2;
+            disp(['Parts Amount Now: ',num2str(size(Parts,1))]);
+            TravelingNow=find(PtsTraveled==0,1,'first');
         end
-        PtsTraveled(TravelingNow)=1;
     end
     Parts_v=zeros(size(Parts,1),1);
     Parts_v_Count=zeros(size(Parts,1),1);
