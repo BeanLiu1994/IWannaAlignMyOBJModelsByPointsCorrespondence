@@ -1,6 +1,7 @@
 function [Pts_new]=GetNewPts(Pts,Aeq,Beq,Tri,method)
+addpath(genpath('./'));
 % Pts :size p x 3   Tri :size m x 3
-% 输入的值满足 Pts_new(Aeq,:)=Beq; 的条件  Aeq :size k x 1   Beq :size k x 3
+% 输出的值尽量满足 Pts_new(Aeq,:)=Beq; 的条件  Aeq :size k x 1   Beq :size k x 3
 % method: 1:sRT move
 %         2:LaplaceCoordinate type1 With sRt first [Default]
 %         3:LaplaceCoordinate type2 With sRt first
