@@ -24,17 +24,17 @@ switch(method)
     case 2
         temp = GetNewPts(Pts,Aeq,Beq,[],1);
         [L]=SolveL_type1(Tri);
-        Pts_new=SolveKernel(L,L*temp,Aeq,Beq,20,2);
+        Pts_new=SolveKernel(L,L*temp,Aeq,Beq,20,1);
     case 3
         temp = GetNewPts(Pts,Aeq,Beq,[],1);
         [L]=SolveL_type2(temp,Tri);
-        Pts_new=SolveKernel(L,L*temp,Aeq,Beq,20,2); 
+        Pts_new=SolveKernel(L,L*temp,Aeq,Beq,20,1); 
     case 4
         [L]=SolveL_type1(Tri);
-        Pts_new=SolveKernel(L,L*Pts,Aeq,Beq,20,2);
+        Pts_new=SolveKernel(L,L*Pts,Aeq,Beq,20,1);
     case 5
         [L]=SolveL_type2(Pts,Tri);
-        Pts_new=SolveKernel(L,L*Pts,Aeq,Beq,20,2);
+        Pts_new=SolveKernel(L,L*Pts,Aeq,Beq,20,1);
 end
 
 end
