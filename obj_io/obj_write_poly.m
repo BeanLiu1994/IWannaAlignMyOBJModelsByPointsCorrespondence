@@ -1,4 +1,4 @@
-function obj_write_poly(file,face,vertex,   color,   vt,fvt,imagepath,   vn,fvn)
+function obj_write_poly(file,face,vertex,   color,   vt,fvt,imagepath,   vn,fvn ,material_only_one,material_name)
 %% support 'v' 'f' ¡®vt' infomation
 %% param judge
 faceAvalibale=1;
@@ -13,6 +13,8 @@ if ~exist('fvt','var');fvt=[];end;
 if ~exist('imagepath','var');imagepath=[];end;
 if ~exist('vn','var');vn=[];end;
 if ~exist('fvn','var');fvn=[];end;
+if ~exist('material_only_one','var');material_only_one=[];end;
+if ~exist('material_name','var');material_name=[];end;
 if isempty(face);faceAvalibale=0;end;
 if isempty(color);colorAvalibale=0;end;
 if isempty(vt)||isempty(fvt);vtAvalible=0;end;
@@ -33,8 +35,14 @@ fid=fopen([pathoffile,file],'w');
 save([pathoffile,file(1:end-4),'.mat'],'face','vertex','color','vt','fvt','imagepath','vn','fvn');
 %% vt material part
     if vtAvalible
-        fprintf(fid,'mtllib %s\n',[file(1:end-4),'.mtl']);
-        fprintf(fid,'usemtl material_0\n');
+        if isempty(material_name)
+            material_name=file(1:end-4);
+        end
+        if isempty(material_only_one)
+            material_only_one='material_0';
+        end
+        fprintf(fid,'mtllib %s\n',[material_name,'.mtl']);
+        fprintf(fid,['usemtl ',material_only_one,'\n']);
     end
 %% vertex part
     if ~colorAvalibale
@@ -73,7 +81,8 @@ save([pathoffile,file(1:end-4),'.mat'],'face','vertex','color','vt','fvt','image
                     ThisLineContent=[faceThisLine;fvtThisLine;fvnThisLine];
                     ThisLineContent_resize=zeros(numel(ThisLineContent),1);
                     ThisLineContent_resize(:)=ThisLineContent;
-                    fprintf(fid,'f %s\n',num2str(ThisLineContent_resize,'%d\\%d '));
+                    ThisLineContent_resize=ThisLineContent_resize';
+                    fprintf(fid,'f %s\n',num2str(ThisLineContent_resize,'%d/%d/%d '));
                 end
             else
                 for i=1:length(face)
@@ -82,7 +91,8 @@ save([pathoffile,file(1:end-4),'.mat'],'face','vertex','color','vt','fvt','image
                     ThisLineContent=[faceThisLine;fvtThisLine];
                     ThisLineContent_resize=zeros(numel(ThisLineContent),1);
                     ThisLineContent_resize(:)=ThisLineContent;
-                    fprintf(fid,'f %s\n',num2str(ThisLineContent_resize,'%d\\%d '));
+                    ThisLineContent_resize=ThisLineContent_resize';
+                    fprintf(fid,'f %s\n',num2str(ThisLineContent_resize,'%d/%d '));
                 end
             end
         else
@@ -93,7 +103,8 @@ save([pathoffile,file(1:end-4),'.mat'],'face','vertex','color','vt','fvt','image
                     ThisLineContent=[faceThisLine;fvnThisLine];
                     ThisLineContent_resize=zeros(numel(ThisLineContent),1);
                     ThisLineContent_resize(:)=ThisLineContent;
-                    fprintf(fid,'f %s\n',num2str(ThisLineContent_resize,'%d\\\\%d '));
+                    ThisLineContent_resize=ThisLineContent_resize';
+                    fprintf(fid,'f %s\n',num2str(ThisLineContent_resize,'%d//%d '));
                 end
             else
                 for i=1:length(face)
@@ -108,8 +119,8 @@ save([pathoffile,file(1:end-4),'.mat'],'face','vertex','color','vt','fvt','image
     fclose(fid);
 %% vt mtl and image part
     if vtAvalible
-        mtlfid=fopen([pathoffile,file(1:end-4),'.mtl'],'w');
-        fprintf(mtlfid,'newmtl material_0\n');
+        mtlfid=fopen([pathoffile,material_name,'.mtl'],'w');
+        fprintf(mtlfid,['newmtl ',material_only_one,'\n']);
         fprintf(mtlfid,'Ka 0.200000 0.200000 0.200000\n');
         fprintf(mtlfid,'Kd 1.000000 1.000000 1.000000\n');
         fprintf(mtlfid,'Ks 1.000000 1.000000 1.000000\n');

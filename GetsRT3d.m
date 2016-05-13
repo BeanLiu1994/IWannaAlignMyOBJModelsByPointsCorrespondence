@@ -12,7 +12,7 @@ end
 % sR*PointSet1'+T=PointSet2'
     H=[PointSet2,ones(length(PointSet2),1)]'*pinv([PointSet1,ones(length(PointSet1),1)]');
     [u,s,v]=svd(H(1:3,1:3));
-    s=mean(s(find(s~=0)));
+    s=mean(diag(s));
     R=v*u';
     T=mean(PointSet2'-s*R'*PointSet1',2);
     H=[s*R,[0;0;0];[T',1]];

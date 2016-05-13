@@ -3,8 +3,12 @@ if nargin==1
     LargeL=0;
 end
 
-Adj=FindAdjByTri(Tri);
-points_amount=max(Tri(:));
+if isempty(Tri)
+    load('AdjSaved.mat');
+else
+    Adj=FindAdjByTri(Tri);
+end
+points_amount=length(Adj.Adj_index);
 
 L_Base=zeros(points_amount);
 %% Á³ÉÏµÄµã

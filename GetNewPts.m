@@ -7,6 +7,7 @@ addpath(genpath('./'));
 %         3:LaplaceCoordinate type2 With sRt first
 %         4:LaplaceCoordinate type1 Without sRt  (Need Manully Alignment)
 %         5:LaplaceCoordinate type2 Without sRt  (Need Manully Alignment)
+%         6:Manully given LaplaceCoordinate
 if nargin==2
     Pts_new=Pts;
     return;
@@ -35,6 +36,9 @@ switch(method)
     case 5
         [L]=SolveL_type2(Pts,Tri);
         Pts_new=SolveKernel(L,L*Pts,Aeq,Beq,20,1);
+    case 6
+        %TriÎªÊäÈëµÄL
+        Pts_new=SolveKernel(Tri,Tri*Pts,Aeq,Beq,20,1);
 end
 
 end
