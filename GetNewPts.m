@@ -8,6 +8,7 @@ addpath(genpath('./'));
 %         4:LaplaceCoordinate type1 Without sRt  (Need Manully Alignment)
 %         5:LaplaceCoordinate type2 Without sRt  (Need Manully Alignment)
 %         6:Manully given LaplaceCoordinate
+%         11: RT move Only
 if nargin==2
     Pts_new=Pts;
     return;
@@ -39,6 +40,18 @@ switch(method)
     case 6
         %TriÎªÊäÈëµÄL
         Pts_new=SolveKernel(Tri,Tri*Pts,Aeq,Beq,20,1);
+    case 11
+        [~,~,R,~]=GetsRT3d(Pts(Aeq,:),Beq);
+        T=mean(Beq'-R'*Pts(Aeq,:)',2);
+        H=[R,[0;0;0];[T',1]];
+        Pts_new = [Pts,ones(length(Pts),1)] * H;
+        Pts_new = Pts_new(:,1:3);
+    case 12
+        [~,~,R,~]=GetsRT3d(Pts(Aeq,:),Beq);
+        T=mean(-R'*Pts(Aeq,:)',2);
+        H=[R,[0;0;0];[T',1]];
+        Pts_new = [Pts,ones(length(Pts),1)] * H;
+        Pts_new = Pts_new(:,1:3);
 end
 
 end
