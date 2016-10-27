@@ -14,8 +14,7 @@ end
     H=[PointSet2_2d,ones(length(PointSet2_2d),1)]'*pinv([PointSet1,ones(length(PointSet1),1)]');
     [u,s,v]=svd(H(1:2,1:3));u=[u,[0;0];0,0,1];
     s=mean(diag(s));
-    R=u*v';
-    R=improperRhandle(R);
+    R=improperRhandle(v)*improperRhandle(u');
     T=mean(PointSet2_2d'-s*R(1:2,1:3)*PointSet1',2);
     Moved_PointSet1=(s*R'*PointSet1'+repmat([T;0],[1,length(PointSet1)]))';
 if plotpoints 
