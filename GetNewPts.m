@@ -46,9 +46,9 @@ switch(method)
         H=[R,[0;0;0];[T',1]];
         Pts_new = [Pts,ones(length(Pts),1)] * H;
         Pts_new = Pts_new(:,1:3);
-    case 12
-        [~,~,R,~]=GetsRT3d(Pts(Aeq,:),Beq);
-        T=mean(-R'*Pts(Aeq,:)',2);
+    case 21
+        [s,R,~]=GetsRT3_2d(Pts(Aeq,:),Beq);
+        T=mean(-s*R'*Pts(Aeq,:)',2);
         H=[R,[0;0;0];[T',1]];
         Pts_new = [Pts,ones(length(Pts),1)] * H;
         Pts_new = Pts_new(:,1:3);
