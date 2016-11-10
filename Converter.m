@@ -44,7 +44,8 @@ classdef Converter
             [r,c]=find(D_prototype==1);r=r';
             temp=[r*3-2;r*3-1;r*3];
             x1=temp(:);
-            Di=sparse(x1,x1,ones(size(x1)),3*p,3*p);
+            Di=sparse([],[],[],3*p,3*p);
+            Di(sub2ind(size(Di),x1,x1))=1;
         end
         % D p x q => 2p x 2p
         function Di=F2p_D(D_prototype)
@@ -52,7 +53,8 @@ classdef Converter
             [r,c]=find(D_prototype==1);r=r';
             temp=[r*2-1;r*2];
             x1=temp(:);
-            Di=sparse(x1,x1,ones(size(x1)),2*p,2*p);
+            Di=sparse([],[],[],2*p,2*p);
+            Di(sub2ind(size(Di),x1,x1))=1;
         end
         %% W m x 2q => m x 2p
         function FullW=Full_W(W,Correspondence,p)
@@ -64,6 +66,10 @@ classdef Converter
             x2=repmat(NewInd,[1,m]);x2=x2(:);
             W=W'; 
             FullW=sparse(x1,x2,W(:),m,2*p);
+            FullW_Count=sparse(x1,x2,1,m,2*p);
+            [r,c,v]=find(FullW);
+            [~,~,v_c]=find(FullW_Count);
+            FullW=sparse(r,c,(v./v_c),m,2*p);
         end
         function W=SelectW(W_in,list_in)
             list=zeros(size(W_in,2),2*length(list_in));
