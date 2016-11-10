@@ -33,8 +33,7 @@ classdef Converter
                 x1(numelofA*(i-1)+1:numelofA*i)=r+s1*(i-1);
                 x2(numelofA*(i-1)+1:numelofA*i)=c+s2*(i-1);
             end
-            R=sparse([],[],[],size(A,1)*n,size(A,2)*n);
-            R(sub2ind(newsize,x1,x2))=values;
+            R=sparse(x1,x2,values,size(A,1)*n,size(A,2)*n);
         end
         function out=repmat_PFill(P,p)
             out=Converter.repmat_diag(P,p);
@@ -45,8 +44,7 @@ classdef Converter
             [r,c]=find(D_prototype==1);r=r';
             temp=[r*3-2;r*3-1;r*3];
             x1=temp(:);
-            Di=sparse([],[],[],3*p,3*p);
-            Di(sub2ind(size(Di),x1,x1))=1;
+            Di=sparse(x1,x1,ones(size(x1)),3*p,3*p);
         end
         % D p x q => 2p x 2p
         function Di=F2p_D(D_prototype)
@@ -54,8 +52,7 @@ classdef Converter
             [r,c]=find(D_prototype==1);r=r';
             temp=[r*2-1;r*2];
             x1=temp(:);
-            Di=sparse([],[],[],2*p,2*p);
-            Di(sub2ind(size(Di),x1,x1))=1;
+            Di=sparse(x1,x1,ones(size(x1)),2*p,2*p);
         end
         %% W m x 2q => m x 2p
         function FullW=Full_W(W,Correspondence,p)
@@ -65,8 +62,8 @@ classdef Converter
             NewInd=NewInd(:);
             x1=repmat(1:m,[2*q,1]);x1=x1(:);
             x2=repmat(NewInd,[1,m]);x2=x2(:);
-            FullW=sparse([],[],[],m,2*p);
-            W=W'; FullW(sub2ind(size(FullW),x1,x2))=W(:);
+            W=W'; 
+            FullW=sparse(x1,x2,W(:),m,2*p);
         end
         function W=SelectW(W_in,list_in)
             list=zeros(size(W_in,2),2*length(list_in));
