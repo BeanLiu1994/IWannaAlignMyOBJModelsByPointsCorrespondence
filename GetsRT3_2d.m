@@ -21,7 +21,7 @@ end
     end
     s=mean(diag(s));
     T=mean(PointSet2_2d'-s*R(1:2,1:3)*PointSet1',2);
-    Moved_PointSet1=(s*R'*PointSet1'+repmat([T;0],[1,length(PointSet1)]))';
+    Moved_PointSet1=(s*R*PointSet1'+repmat([T;0],[1,length(PointSet1)]))';
 if plotpoints 
     plot3(Moved_PointSet1(:,1),Moved_PointSet1(:,2),Moved_PointSet1(:,3),'b*')
 end

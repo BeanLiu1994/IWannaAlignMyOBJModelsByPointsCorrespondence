@@ -14,9 +14,9 @@ end
     [u,s,v]=svd(H(1:3,1:3));
     R=u*v';
     s=mean(diag(s));
-    T=mean(PointSet2'-s*R'*PointSet1',2);
-    H=[s*R,[0;0;0];[T',1]];
-    Moved_PointSet1=(s*R'*PointSet1'+repmat(T,[1,length(PointSet1)]))';
+    T=mean(PointSet2'-s*R*PointSet1',2);
+    H=[s*R',[0;0;0];[T',1]];%用在外面的时候是右乘在点上 所以转置
+    Moved_PointSet1=(s*R*PointSet1'+repmat(T,[1,length(PointSet1)]))';
 if plotpoints 
     plot3(Moved_PointSet1(:,1),Moved_PointSet1(:,2),Moved_PointSet1(:,3),'b*')
 end
