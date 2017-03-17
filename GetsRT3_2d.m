@@ -17,7 +17,7 @@ end
     R(1:2,:)=u*v';
     R(3,:)=cross(R(1,:),R(2,:));
     if det(R)<0
-        R(:,3)=cross(R(1,:),R(2,:));
+        R(3,:)=cross(R(1,:),R(2,:));
     end
     s=mean(diag(s));
     T=mean(PointSet2_2d'-s*R(1:2,1:3)*PointSet1',2);

@@ -45,7 +45,7 @@ L_Base=sparse(r,c,v./v_m);
 New_x=[1:length(L_Base)]';
 New_v=zeros(length(L_Base),1);
 for i=1:length(L_Base)
-    New_v(i)=-sum(L_Base(i,:));
+    New_v(i)=-sum(L_Base(:,i));
 end
 L_Base=sparse([r;New_x],[c;New_x],[v./v_m;New_v]);
 if LargeL
