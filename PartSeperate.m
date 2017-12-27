@@ -1,3 +1,5 @@
+%函数应被弃用，因为使用了FindAdjByTri 返回结果可能有问题
+%
 function [Parts,Parts_v,Parts_v_Count]=PartSeperate(Tri)
     PartsWidth=max(Tri(:));Parts=[];
     PtsTraveled=zeros(PartsWidth,1);

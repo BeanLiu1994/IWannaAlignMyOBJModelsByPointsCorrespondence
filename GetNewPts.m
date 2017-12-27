@@ -42,8 +42,12 @@ switch(method)
         Pts_new=SolveKernel(Tri,Tri*Pts,Aeq,Beq,20,1);
     case 11
         [~,~,R,~]=GetsRT3d(Pts(Aeq,:),Beq);
-        T=mean(Beq'-R'*Pts(Aeq,:)',2);
-        H=[R,[0;0;0];[T',1]];
+        T=mean(Beq'-R*Pts(Aeq,:)',2);
+        H=[R',[0;0;0];[T',1]];
+        Pts_new = [Pts,ones(length(Pts),1)] * H;
+        Pts_new = Pts_new(:,1:3);
+    case 12
+        [H]=GetsRT3d_Nonrigid(Pts(Aeq,:),Beq);
         Pts_new = [Pts,ones(length(Pts),1)] * H;
         Pts_new = Pts_new(:,1:3);
     case 21
